@@ -4,10 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link href="./src/output.css" rel="stylesheet" />
-    <script
-      src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@1"
-      type="module"
-    ></script>
+    
     <style>
       /*! tailwindcss v4.3.2 | MIT License | https://tailwindcss.com */
       @layer properties {
@@ -641,15 +638,6 @@
       src="https://cdn.jsdelivr.net/npm/@tailwindplus/elements@insiders"
       type="module"
     ></script>
-    <script src="/plus-assets/build/iframe/components.js?hash=25df7d34d043de1c316a31211aa744b1"></script>
-    <link
-      rel="modulepreload"
-      href="https://tailwindcss.com/plus-assets/build/assets/iframe-BUCe_xEG.js"
-    />
-    <script
-      type="module"
-      src="https://tailwindcss.com/plus-assets/build/assets/iframe-BUCe_xEG.js"
-    ></script>
     <script>
       window.addEventListener("load", () =>
         window.setTimeout(() => {
@@ -702,6 +690,7 @@
         }
       }
     </style>
+    
   </head>
   <body>
     <nav
@@ -885,7 +874,7 @@
     <div class="bg-gray-900 scheme-dark">
       <div class="mx-auto max-w-7xl px-4 py-24 sm:px-6 sm:py-32 lg:px-8">
         <div class="mx-auto max-w-2xl">
-          <form>
+          <form id="votingForm">
             <div class="space-y-12">
               <div class="border-b border-white/10 pb-12">
                 <h1 class="text-3xl font-semibold text-white">
@@ -905,36 +894,11 @@
                       >Voter Name</label
                     >
                     <div class="mt-2 grid grid-cols-1">
-                      <select
-                        id="voter"
-                        name="voter"
+                      <input type="text" required id="voter" name="voter"
+                        placeholder="Please enter your name"
                         autocomplete="voter-name"
                         class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white/5 py-1.5 pr-8 pl-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 *:bg-gray-800 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                       >
-                        <option>Select your name</option>
-                        <option>Austin</option>
-                        <option>Kosi</option>
-                        <option>Lilian</option>
-                        <option>Amarachi</option>
-                        <option>Chidinma</option>
-                        <option>Nnamdi</option>
-                        <option>Austin</option>
-                        <option>Ifeanyi</option>
-                        <option>Victor</option>
-                      </select>
-                      <svg
-                        viewBox="0 0 16 16"
-                        fill="currentColor"
-                        data-slot="icon"
-                        aria-hidden="true"
-                        class="pointer-events-none col-start-1 row-start-1 mr-2 size-5 self-center justify-self-end text-gray-400 sm:size-4"
-                      >
-                        <path
-                          d="M4.22 6.22a.75.75 0 0 1 1.06 0L8 8.94l2.72-2.72a.75.75 0 1 1 1.06 1.06l-3.25 3.25a.75.75 0 0 1-1.06 0L4.22 7.28a.75.75 0 0 1 0-1.06Z"
-                          clip-rule="evenodd"
-                          fill-rule="evenodd"
-                        ></path>
-                      </svg>
                     </div>
                   </div>
 
@@ -948,12 +912,12 @@
                       <select
                         id="candidate"
                         name="candidate"
+                        required
                         autocomplete="candidate-name"
                         class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white/5 py-1.5 pr-8 pl-3 text-base text-white outline-1 -outline-offset-1 outline-white/10 *:bg-gray-800 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-500 sm:text-sm/6"
                       >
-                        <option>Select your Preferred candidate</option>
-                        <option>Austin</option>
-                        <option>Kosi</option>
+                        <option value="">Select your Preferred candidate</option>
+                        <!-- Options below are populated dynamically by script.ts from the `candidates` array -->
                       </select>
                       <svg
                         viewBox="0 0 16 16"
@@ -972,10 +936,7 @@
                   </div>
 
                   <div class="mt-6 flex items-center justify-end gap-x-6">
-                    <button
-                      type="submit"
-                      class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500"
-                    >
+                    <button type="submit" id="castVote" class="rounded-md bg-indigo-500 px-3 py-2 text-sm font-semibold text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-500">
                       Cast Vote
                     </button>
                   </div>
@@ -988,7 +949,7 @@
     </div>
 <!-- CHANGED: 'place-content-start' to 'justify-between items-center' -->
 <div class="flex flex-col md:flex-row h-50 justify-between items-center bg-gray-900 scheme-dark">
-      <button command="show-modal" commandfor="dialog" class="rounded-md md:ml-50 h-[50px] bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white/5 transition-all duration-300 hover:bg-white/20 in-has-open:opacity-0" aria-expanded="false">
+      <button id="checkResult" command="show-modal" commandfor="dialog" class="rounded-md md:ml-50 h-[50px] bg-white/10 px-2.5 py-1.5 text-sm font-semibold text-white inset-ring inset-ring-white/5 transition-all duration-300 hover:bg-white/20 in-has-open:opacity-0" aria-expanded="false">
         Check Result
       </button>
       <el-dialog>
@@ -1009,10 +970,10 @@
                       How Voters voted
                     </h3>
                     <div class="mt-2">
-                      <p class="text-sm text-gray-400">Austin: 12 Votes</p>
-                      <p class="text-sm text-gray-400">Kosi: 8 Votes</p>
-                      <p class="text-sm text-gray-400">
-                        Election Winner: Austin
+                      <p id="candidateOneResults" class="text-sm text-gray-400">Candidate 1: - Votes</p>
+                      <p id="candidateTwoResults" class="text-sm text-gray-400">Candidate 2: - Votes</p>
+                      <p id="electionWinner" class="text-sm text-gray-400">
+                        Election Winner: 
                       </p>
                     </div>
                   </div>
@@ -1032,7 +993,7 @@
       <div class="ryd rzv sab">
         <div class="rxk rxs ryk rym rzo rzs">
           <div>
-            <h3 class="ryr ryu ryx saa">Election Scoreboard</h3>
+            <h3 class="ryr ryu ryx saa">Election Leaderboard</h3>
 
             <dl class="rxl rxp rxu rxw rzn rzr !grid-cols-2">
               <div class="rxh rxz rya ryi ryk ryn ryp rzi rzo rzp rzu sac sad">
@@ -1042,10 +1003,14 @@
                       <path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
                   </div>
-                  <p class="rxn rxy rys ryt ryw rzw">Austin</p>
+                  <p id="candidateOneName" class="rxn rxy rys ryt ryw rzw">
+                    Candidate One
+                    </p>
                 </dt>
                 <dd class="rxn rxo rxv ryo">
-                  <p class="ryq ryu ryx saa">12</p>
+                  <p id="candidateOneVotes" class="ryq ryu ryx saa">
+                    -
+                    </p>
                   <p class="rxm rxo rxv rys ryu rza rzx">
                     <span class="rxf"></span>
                     Votes
@@ -1060,10 +1025,14 @@
                       <path d="M15 19.128a9.38 9.38 0 0 0 2.625.372 9.337 9.337 0 0 0 4.121-.952 4.125 4.125 0 0 0-7.533-2.493M15 19.128v-.003c0-1.113-.285-2.16-.786-3.07M15 19.128v.106A12.318 12.318 0 0 1 8.624 21c-2.331 0-4.512-.645-6.374-1.766l-.001-.109a6.375 6.375 0 0 1 11.964-3.07M12 6.375a3.375 3.375 0 1 1-6.75 0 3.375 3.375 0 0 1 6.75 0Zm8.25 2.25a2.625 2.625 0 1 1-5.25 0 2.625 2.625 0 0 1 5.25 0Z" stroke-linecap="round" stroke-linejoin="round"></path>
                     </svg>
                   </div>
-                  <p class="rxn rxy rys ryt ryw rzw">Kosi</p>
+                  <p id="candidateTwoName" class="rxn rxy rys ryt ryw rzw">
+                    Candidate Two
+                    </p>
                 </dt>
                 <dd class="rxn rxo rxv ryo">
-                  <p class="ryq ryu ryx saa">8</p>
+                  <p id="candidateTwoVotes" class="ryq ryu ryx saa">
+                    -
+                    </p>
                   <p class="rxm rxo rxv rys ryu rza rzx">
                     <span class="rxf"></span>
                     Votes
@@ -1078,5 +1047,6 @@
 
     </div>
 
+    <script src="script.js"></script>
   </body>
 </html>
